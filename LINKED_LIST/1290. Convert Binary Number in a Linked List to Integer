@@ -19,6 +19,21 @@ The Linked List is not empty.
 Number of nodes will not exceed 30.
 Each node's value is either 0 or 1.
 MY_SOLUTION
+
+INITIAL APPROACH
+public int getDecimalValue(ListNode head) {
+        StringBuilder s=new StringBuilder();
+        while(head!=null){
+            s.append(head.val);
+            head=head.next;
+        }
+        return Integer.parseInt(s.toString(),2);
+    }
+
+
+
+
+
 /**
  * Definition for singly-linked list.
  * public class ListNode {
