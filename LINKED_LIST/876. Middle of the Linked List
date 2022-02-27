@@ -1,0 +1,71 @@
+Given the head of a singly linked list, return the middle node of the linked list.
+
+If there are two middle nodes, return the second middle node.
+
+ 
+
+Example 1:
+
+
+Input: head = [1,2,3,4,5]
+Output: [3,4,5]
+Explanation: The middle node of the list is node 3.
+Example 2:
+
+
+Input: head = [1,2,3,4,5,6]
+Output: [4,5,6]
+Explanation: Since the list has two middle nodes with values 3 and 4, we return the second one.
+ 
+
+Constraints:
+
+The number of nodes in the list is in the range [1, 100].
+1 <= Node.val <= 100
+
+MY_SOLUTION
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        if( head == null){
+            return head;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+        
+    }
+}
+
+
+OTHER APPROACHES
+
+Explanation:
+
+In this question we need to find the middle element of a linked list of size N.
+Middle Element = N/2 or N/2+1
+
+First Approach: Using Two Passes
+
+Iterate over the whole linked list and find the length of the linked list, say N.
+Then, iterate till N/2+1 in case of odd number of nodes and N/2 in case of even number of nodes.
+In this case Time Complexity will be O(N) and Space Complexity will be O(1).
+Alternative Approach: Using Extra Space
+
+Iterate over the whole linked list and store the data in an ArrayList.
+Then find the element by accessing the N/2 index of the ArrayList.
+In this case Time Complexity and Space Complexity will be O(N).
