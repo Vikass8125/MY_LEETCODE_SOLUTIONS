@@ -1,0 +1,52 @@
+Given head which is a reference node to a singly-linked list. The value of each node in the linked list is either 0 or 1. The linked list holds the binary representation of a number.
+
+Return the decimal value of the number in the linked list.
+Example 1:
+
+
+Input: head = [1,0,1]
+Output: 5
+Explanation: (101) in base 2 = (5) in base 10
+Example 2:
+
+Input: head = [0]
+Output: 0
+ 
+
+Constraints:
+
+The Linked List is not empty.
+Number of nodes will not exceed 30.
+Each node's value is either 0 or 1.
+MY_SOLUTION
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+
+/*Let's Understand this with a small example for base 10. [Note:- we are working from left to right]
+N = 438 = (4 * 100) + (3 * 10) + (8 * 1)
+Now, suppose we append digit 5 at the back of N.
+N' = 4385 = (4 * 1000) + (3 * 100) + (8 * 10) + (5 * 1)
+Have U noticed ? N' and N doesn't differ much. Can we get N' from N? How?
+N' = 4385 = (4 * 1000) + (3 * 100) + (8 * 10) + (5 * 1) = [(4 * 100) + (3 * 10) + (8 * 1)] * 10 + 5 = N * 10 + 5
+N' = N * 10 + digit.
+In General for base p, whenever the new digit is appended at back, new_answer = old_answer * p + digit.*/
+
+class Solution {
+    public int getDecimalValue(ListNode head) {
+        int result = 0;
+        ListNode node = head;
+        while(node != null){
+            result = result * 2 + node.val;
+            node = node.next;
+        }
+        return result;
+    }
+}
