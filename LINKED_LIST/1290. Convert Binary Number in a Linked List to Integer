@@ -50,3 +50,21 @@ class Solution {
         return result;
     }
 }
+
+
+BIT_MAP
+
+As left shift of the number by 1 gives 2 times the number.
+3<<1 = 6
+class Solution {
+    public int getDecimalValue(ListNode head) {
+        int res = 0;
+        
+        while(head!=null){
+            res = res<<1 | head.val;   // res = res*2 + head.val;
+            head = head.next;
+        }
+        
+        return res;
+    }
+}
