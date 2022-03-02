@@ -1,0 +1,81 @@
+234. Palindrome Linked List
+Given the head of a singly linked list, return true if it is a palindrome.
+
+ 
+
+Example 1:
+
+
+Input: head = [1,2,2,1]
+Output: true
+Example 2:
+
+
+Input: head = [1,2]
+Output: false
+ 
+
+Constraints:
+
+The number of nodes in the list is in the range [1, 105].
+0 <= Node.val <= 9
+
+
+MY_SOLUTION
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        ListNode mid = getMid(head);
+        ListNode sHead = reverseList(mid);
+        ListNode reReverse = sHead; 
+        
+        while(head != null && sHead != null){
+            if(head.val != sHead.val){
+                break;
+            }
+            head = head.next;
+            sHead = sHead.next;
+        }
+        reverseList(reReverse);
+        return head == null || sHead == null;
+    }
+    public ListNode getMid(ListNode head){
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+    public ListNode reverseList(ListNode head){
+        if(head == null){
+            return head;
+        }
+        ListNode prev = null;
+        ListNode present = head;
+        ListNode nex = present.next;
+        while(present != null){
+            present.next = prev;
+            prev = present;
+            present = nex;
+            if(nex != null){
+                nex = nex.next;
+            }
+        }
+        head = prev;
+        return head;
+        
+    }
+}
+
