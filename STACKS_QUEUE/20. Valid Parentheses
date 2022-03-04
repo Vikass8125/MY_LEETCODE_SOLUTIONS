@@ -1,0 +1,70 @@
+Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+An input string is valid if:
+
+Open brackets must be closed by the same type of brackets.
+Open brackets must be closed in the correct order.
+ 
+
+Example 1:
+
+Input: s = "()"
+Output: true
+Example 2:
+
+Input: s = "()[]{}"
+Output: true
+Example 3:
+
+Input: s = "(]"
+Output: false
+ 
+
+Constraints:
+
+1 <= s.length <= 104
+s consists of parentheses only '()[]{}'.
+
+
+Pseudocode
+1: Create stack data structure
+2: Traverse each charater in input string
+3: Check if the type of open parentheses is of (, [, { and push it to stack.
+4: Check if the type of parentheses is closed ) && check if the last pushed element in the stack is open ( 
+then pop that open parentheses from the stack since parentheses are valid.  (Since current parentheses is closed and last pushed is open, that means we have continous open and closed parentheses)
+5:  Check if the type of parentheses is closed ] && check if the last pushed element in the stack is open [
+then pop that parentheses from the stack since parentheses are valid.
+6:  Check if the type of parentheses is closed } && check if the last pushed element in the stack is open {
+then pop that parentheses from the stack since parentheses are valid.
+7: Return if stack is empty( stack will be empty when all the open brackets that pushed in stack have find closed bracket, if its not then stack will not be empty).
+
+
+class Solution {
+    public boolean isValid(String s) {
+        int length = s.length();
+        char[] s1 = s.toCharArray();
+        if(length==0)
+            return true;
+        Stack<Character> stack = new Stack<>();
+        
+    for(int i=0;i<length;i++){
+        if(s1[i]=='(' || s1[i]=='[' || s1[i]=='{'){
+            stack.push(s1[i]);
+        }
+        else if(!stack.empty() && s1[i]==')' && stack.peek()=='('){
+            stack.pop();
+        }
+        else if(!stack.empty() && s1[i]==']' && stack.peek()=='['){
+            stack.pop();
+        }
+        else if(!stack.empty() && s1[i]=='}' && stack.peek()=='{'){
+            stack.pop();
+        }
+        else {
+            return false;
+        }
+    }
+        
+        return stack.empty();
+   }
+}
