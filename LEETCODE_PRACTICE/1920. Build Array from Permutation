@@ -42,3 +42,44 @@ class Solution {
         return ans;
     }
 }
+
+
+O(1) approach
+
+	  I am just explaining O(1) space complexity approach and it can be implemented using any language. i am also sharing the c++ code.
+let a = nums[i] and b= nums[nums[i]]
+let nums=[0,2,1,5,3,4]
+if a = nums[3] = 5 then b = nums[nums[3]] = nums[5] = 4
+a+nb = 5 + 64 = 29
+29%n = 29 % 6 = 5 = a; so formula for a = (a+nb)%n
+29/n = 29/6 = 4 = b ; so formula for b = (a+nb)/n
+
+so in the first step we will be calculating a+nb for each index and replacing element at this value by the obtained result.
+i.e,
+for(int i=0;i<n;i++)
+{
+nums[i] = nums[i]+(n*(nums[nums[i]]%n)); // here %n is takrn to compensate the changes happened in previous iteration and get exat value of b;
+}
+in the next step we just have to replace value at each index by num[i]/n to get b which is equal to nums[nums[i]] ;
+i.e,
+for(int i=0;i<n;i++)
+{
+nums[i]/=n;
+}
+and nums is the vector to be returned;
+
+FULL CODE
+vector buildArray(vector& nums)
+{
+
+    int n = nums.size();
+    for(int i=0;i<n;i++)
+    {
+        nums[i] = nums[i]+(n*(nums[nums[i]]%n));
+    }
+    for(int i=0;i<n;i++)
+    {
+        nums[i]/=n;
+    }
+    return nums;
+}
