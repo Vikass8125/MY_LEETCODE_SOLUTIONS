@@ -1,0 +1,63 @@
+Given a characters array letters that is sorted in non-decreasing order and a character target, return the smallest character in the array that is larger than target.
+
+Note that the letters wrap around.
+
+For example, if target == 'z' and letters == ['a', 'b'], the answer is 'a'.
+ 
+
+Example 1:
+
+Input: letters = ["c","f","j"], target = "a"
+Output: "c"
+Example 2:
+
+Input: letters = ["c","f","j"], target = "c"
+Output: "f"
+Example 3:
+
+Input: letters = ["c","f","j"], target = "d"
+Output: "f"
+ 
+
+Constraints:
+
+2 <= letters.length <= 104
+letters[i] is a lowercase English letter.
+letters is sorted in non-decreasing order.
+letters contains at least two different characters.
+target is a lowercase English letter.
+
+
+Intuition and Algorithm
+
+Like in Approach #2, we want to find something larger than target in a sorted array. 
+This is ideal for a binary search: Let's find the rightmost position to insert target into letters so that it remains sorted.
+
+Our binary search (a typical one) proceeds in a number of rounds. At each round, let's maintain the loop invariant 
+that the answer must be in the interval [lo, hi]. Let mi = (lo + hi) / 2. If letters[mi] <= target, then we must insert it in the interval [mi + 1, hi]. 
+Otherwise, we must insert it in the interval [lo, mi].
+
+At the end, if our insertion position says to insert target into the last position letters.length, we return letters[0] instead. 
+This is what the modulo operation does.
+
+
+
+
+
+class Solution {
+    public char nextGreatestLetter(char[] letters, char target) {
+        int start = 0;
+        int end = letters.length - 1;
+        while(start <= end){
+            int mid = start + (end-start)/2;
+            
+            if(target < letters[mid]){
+                end = mid - 1;
+            }
+            else{
+                start = mid + 1;
+            }
+        }
+        return letters[start % letters.length];
+    }
+}
