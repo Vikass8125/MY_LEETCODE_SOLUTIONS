@@ -1,0 +1,116 @@
+Given an m x n matrix, return all elements of the matrix in spiral order.
+
+ 
+
+Example 1:
+
+
+Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+Output: [1,2,3,6,9,8,7,4,5]
+Example 2:
+
+
+Input: matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+Output: [1,2,3,4,8,12,11,10,9,5,6,7]
+ 
+
+Constraints:
+
+m == matrix.length
+n == matrix[i].length
+1 <= m, n <= 10
+-100 <= matrix[i][j] <= 100
+
+MY_SOLUTION
+This is a very simple and easy to understand solution. I traverse right and increment rowBegin, then traverse down and decrement colEnd, then I traverse left and decrement rowEnd, and finally I traverse up and increment colBegin.
+
+The only tricky part is that when I traverse left or up I have to check whether the row or col still exists to prevent duplicates. 
+
+public class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        
+        List<Integer> res = new ArrayList<Integer>();
+        
+        if (matrix.length == 0) {
+            return res;
+        }
+        
+        int rowBegin = 0;
+        int rowEnd = matrix.length-1;
+        int colBegin = 0;
+        int colEnd = matrix[0].length - 1;
+        
+        while (rowBegin <= rowEnd && colBegin <= colEnd) {
+            // Traverse Right
+            for (int j = colBegin; j <= colEnd; j ++) {
+                res.add(matrix[rowBegin][j]);
+            }
+            rowBegin++;
+            
+            // Traverse Down
+            for (int j = rowBegin; j <= rowEnd; j ++) {
+                res.add(matrix[j][colEnd]);
+            }
+            colEnd--;
+            
+            if (rowBegin <= rowEnd) {
+                // Traverse Left
+                for (int j = colEnd; j >= colBegin; j --) {
+                    res.add(matrix[rowEnd][j]);
+                }
+            }
+            rowEnd--;
+            
+            if (colBegin <= colEnd) {
+                // Traver Up
+                for (int j = rowEnd; j >= rowBegin; j --) {
+                    res.add(matrix[j][colBegin]);
+                }
+            }
+            colBegin ++;
+        }
+        
+        return res;
+    }
+}
+
+
+
+ANOTHER_SOLUTION -> RECURSIVE
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        // Check for edge cases for the matrix
+        if(matrix == null || matrix.length == 0 || matrix[0].length == 0) return new ArrayList<Integer>();
+        
+        List<Integer> res = new ArrayList<Integer>();
+        // Run our recursion starting with the first and last eligible rows and the first and last eligible columns
+        spiralOut(res, matrix, 0, matrix.length - 1, 0, matrix[0].length - 1);
+        return res;
+    }
+    
+    private void spiralOut(List<Integer> res, int[][] m, int r1, int r2, int c1, int c2){
+        // Return if we've exhausted all values to the point of invalid indices
+        if(r1 > r2 || c1 > c2) return;
+        
+        // TOP ROW: left to right
+        for(int c = c1; c <= c2; c++) res.add(m[r1][c]);
+        
+        // RIGHT COLUMN: top to bottom
+        for(int r = r1 + 1; r <= r2; r++) res.add(m[r][c2]);
+        
+        // Return if we've processed the last row/column because we'd otherwise repeat values
+        if(r1 == r2 || c1 == c2) return;
+        
+        // BOTTOM ROW: right to left
+        for(int c = c2 - 1; c >= c1; c--) res.add(m[r2][c]);
+        
+        // LEFT COLUMN: bottom to top
+        for(int r = r2 - 1; r >= r1 + 1; r--) res.add(m[r][c1]);
+        
+        // Recursion through the inner matrix
+        spiralOut(res, m, r1 + 1, r2 - 1, c1 + 1, c2 - 1);
+    }
+}
+If you imagine a spiral traversal of a matrix, the traversal of the inner matrix once you peel back the outmost 1 layer of the matrix is the same regardless of that outermost layer. Therefore, we can break the problem down to traversing the outermost layer, recording it, and then doing the same thing for the inner matrix. When we traverse the outermost layer, we have to be careful not the repeat the very last value from the last row/column as the first value in our current row/column.
+
+Note that if there are an odd number of rows or columns for the last matrix/layer, you must be careful not to double-count
